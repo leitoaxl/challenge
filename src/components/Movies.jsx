@@ -1,22 +1,24 @@
-import Movie from './Movie'
-import '../styles/movies.scss'
+import React from 'react';
+import Movie from './Movie';
+import '../styles/movies.scss';
 
 const Movies = ({ movies, viewTrailer, closeCard }) => {
+  if (!movies || movies.length === 0) {
+    return <div data-testid="no-movies">No movies available</div>;
+  }
 
-    return (
-        <div data-testid="movies">
-            {movies.movies.results?.map((movie) => {
-                return (
-                    <Movie 
-                        movie={movie} 
-                        key={movie.id}
-                        viewTrailer={viewTrailer}
-                        closeCard={closeCard}
-                    />
-                )
-            })}
-        </div>
-    )
-}
+  return (
+    <div data-testid="movies" className="movies-grid">
+      {movies.map((movie) => (
+        <Movie 
+          movie={movie} 
+          key={movie.id}
+          viewTrailer={viewTrailer}
+          closeCard={closeCard}
+        />
+      ))}
+    </div>
+  );
+};
 
-export default Movies
+export default Movies;

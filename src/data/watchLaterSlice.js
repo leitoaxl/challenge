@@ -1,22 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
 
 const watchLaterSlice = createSlice({
-    name: 'watch-later',
+    name: 'watchLater',
     initialState: {
         watchLaterMovies: []
     },
     reducers: {
         addToWatchLater: (state, action) => {
-            state.watchLaterMovies = [action.payload, ...state.watchLaterMovies]
+            state.watchLaterMovies.unshift(action.payload); 
         },
         removeFromWatchLater: (state, action) => {
-            const indexOfId = state.watchLaterMovies.findIndex(key => key.id === action.payload.id)
-            state.watchLaterMovies.splice(indexOfId, 1)
+            const { id } = action.payload;
+            state.watchLaterMovies = state.watchLaterMovies.filter(movie => movie.id !== id);
         },
-        remveAllWatchLater: (state) => {
-            state.watchLaterMovies = []
+        removeAllWatchLater: (state) => {
+            state.watchLaterMovies = [];
         },
     },
-})
+});
 
-export default watchLaterSlice
+export const { addToWatchLater, removeFromWatchLater, removeAllWatchLater } = watchLaterSlice.actions;
+
+export default watchLaterSlice.reducer;
